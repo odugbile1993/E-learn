@@ -1,302 +1,888 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini E-Learning Platform</title>
-  <style>
-    /* ---- Global ---- */
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
-    a { text-decoration: none; color: inherit; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeLearn - Mini E-Learning Platform</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* ---- Layout ---- */
-    .container {
-      max-width: 860px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,.07);
-    }
-    h1 { text-align: center; margin-bottom: 1.5rem; color: #2c3e50; }
-    h2 { margin-top: 0; color: #34495e; }
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4bb543;
+            --warning: #ffcc00;
+            --danger: #dc3545;
+            --gray: #6c757d;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-    /* ---- Home ---- */
-    #home { display: block; }
-    .course-list { display: grid; gap: 1rem; }
-    .course-card {
-      border: 1px solid #e0e6ed;
-      border-radius: 8px;
-      padding: 1rem;
-      cursor: pointer;
-      transition: all .2s ease;
-      background: #fafafa;
-    }
-    .course-card:hover {
-      border-color: #3498db;
-      background: #f0f8ff;
-      transform: translateY(-2px);
-    }
-    .course-title { font-weight: 600; margin-bottom: .4rem; }
-    .progress-bar {
-      height: 8px;
-      background: #e0e6ed;
-      border-radius: 4px;
-      overflow: hidden;
-      margin-top: .5rem;
-    }
-    .progress-fill {
-      height: 100%;
-      background: #3498db;
-      width: 0;
-      transition: width .3s ease;
-    }
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
 
-    /* ---- Detail ---- */
-    #detail { display: none; }
-    .back-btn {
-      background: #7f8c8d;
-      color: #fff;
-      border: none;
-      padding: .5rem 1rem;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: .9rem;
-      margin-bottom: 1rem;
-      transition: background .2s;
-    }
-    .back-btn:hover { background: #636e72; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-    .lesson-list { margin-top: 1rem; display: grid; gap: .75rem; }
-    .lesson-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: .75rem;
-      border: 1px solid #e0e6ed;
-      border-radius: 6px;
-      background: #fdfdfd;
-    }
-    .lesson-item button {
-      background: #2ecc71;
-      color: #fff;
-      border: none;
-      padding: .35rem .75rem;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: .85rem;
-      transition: background .2s;
-    }
-    .lesson-item button:hover { background: #27ae60; }
-    .lesson-item button.completed {
-      background: #95a5a6;
-      cursor: default;
-    }
-    .lesson-item button.completed:hover { background: #95a5a6; }
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+        }
 
-    .complete-course-btn {
-      display: block;
-      width: 100%;
-      margin-top: 1.5rem;
-      background: #3498db;
-      color: #fff;
-      border: none;
-      padding: .75rem;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    .complete-course-btn:hover { background: #2980b9; }
-    .complete-course-btn.completed {
-      background: #27ae60;
-      cursor: default;
-    }
-    .complete-course-btn.completed:hover { background: #27ae60; }
-  </style>
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3ab0d6;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 140px);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(rgba(67, 97, 238, 0.05), rgba(67, 97, 238, 0.1));
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--gray);
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-image {
+            height: 180px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-content h3 {
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .course-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .course-card .btn {
+            width: 100%;
+        }
+
+        /* Course Detail Page */
+        .course-detail-header {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .course-detail-header h1 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .course-detail-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--gray);
+        }
+
+        .progress-container {
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .lessons-list {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .lesson-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+        }
+
+        .lesson-completed .lesson-icon {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .lesson-content {
+            flex: 1;
+        }
+
+        .lesson-content h4 {
+            margin-bottom: 5px;
+        }
+
+        .lesson-content p {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .mark-complete-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .mark-complete-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .mark-complete-btn.completed {
+            background-color: var(--success);
+            cursor: default;
+        }
+
+        /* Auth Forms */
+        .auth-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .auth-switch a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav ul li {
+                margin-left: 0;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .course-detail-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Mini E-Learning Platform</h1>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i>📚</i> VibeLearn
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="courses">Courses</a></li>
+                    <li><a href="#" class="nav-link" data-page="profile">My Profile</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn btn-outline" id="login-btn">Login</button>
+                <button class="btn btn-primary" id="signup-btn">Sign Up</button>
+            </div>
+        </div>
+    </header>
 
-    <!-- Home View -->
-    <section id="home">
-      <h2>Courses</h2>
-      <div class="course-list"></div>
-    </section>
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <h1>Welcome to VibeLearn</h1>
+                <p>Your gateway to knowledge and skill development. Explore our courses and start your learning journey today!</p>
+                <button class="btn btn-primary" id="explore-courses-btn">Explore Courses</button>
+            </div>
+            
+            <h2>Featured Courses</h2>
+            <div class="courses-grid">
+                <!-- Courses will be dynamically inserted here -->
+            </div>
+        </section>
 
-    <!-- Detail View -->
-    <section id="detail">
-      <button class="back-btn" onclick="showHome()">Back to Courses</button>
-      <h2 id="detail-title"></h2>
+        <!-- Courses Page -->
+        <section id="courses" class="page">
+            <h1>All Courses</h1>
+            <div class="courses-grid">
+                <!-- Courses will be dynamically inserted here -->
+            </div>
+        </section>
 
-      <div style="margin: .75rem 0;">
-        Progress: <strong id="detail-progress">0%</strong>
-      </div>
-      <div class="progress-bar">
-        <div id="detail-progress-fill" class="progress-fill"></div>
-      </div>
+        <!-- Course Detail Page -->
+        <section id="course-detail" class="page">
+            <div class="course-detail-header">
+                <h1 id="course-title">Course Title</h1>
+                <p id="course-description">Course description will appear here.</p>
+                <div class="course-detail-meta">
+                    <div class="meta-item">
+                        <i>⏱️</i> <span id="course-duration">10 hours</span>
+                    </div>
+                    <div class="meta-item">
+                        <i>📝</i> <span id="course-lessons">5 lessons</span>
+                    </div>
+                    <div class="meta-item">
+                        <i>🎓</i> <span id="course-level">Beginner</span>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="course-progress-bar"></div>
+                </div>
+                <p>Progress: <span id="course-progress-text">0%</span></p>
+            </div>
+            
+            <div class="lessons-list">
+                <h2>Course Content</h2>
+                <!-- Lessons will be dynamically inserted here -->
+            </div>
+        </section>
 
-      <h3 style="margin-top: 1.5rem;">Lessons</h3>
-      <div class="lesson-list"></div>
+        <!-- Profile Page -->
+        <section id="profile" class="page">
+            <h1>My Learning Profile</h1>
+            <div class="profile-content">
+                <!-- Profile content will be dynamically inserted here -->
+            </div>
+        </section>
 
-      <button id="complete-course-btn" class="complete-course-btn">Mark Course as Completed</button>
-    </section>
-  </div>
+        <!-- Login Form -->
+        <section id="login" class="page">
+            <div class="auth-form">
+                <h2>Login to Your Account</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password">
+                </div>
+                <button class="btn btn-primary" id="login-submit" style="width: 100%;">Login</button>
+                <div class="auth-switch">
+                    Don't have an account? <a href="#" id="switch-to-signup">Sign up</a>
+                </div>
+            </div>
+        </section>
 
-  <script>
-    // ------------------- Data -------------------
-    const STORAGE_KEY = 'mini_elearning_courses';
-    let courses = [
-      {
-        id: 1,
-        title: 'JavaScript Basics',
-        completed: false,
-        lessons: [
-          { id: 1, title: 'Variables & Data Types', completed: false },
-          { id: 2, title: 'Functions', completed: false },
-          { id: 3, title: 'Control Flow', completed: false }
-        ]
-      },
-      {
-        id: 2,
-        title: 'HTML & CSS Essentials',
-        completed: false,
-        lessons: [
-          { id: 1, title: 'HTML Structure', completed: false },
-          { id: 2, title: 'CSS Selectors', completed: false },
-          { id: 3, title: 'Box Model', completed: false }
-        ]
-      },
-      {
-        id: 3,
-        title: 'Responsive Design',
-        completed: false,
-        lessons: [
-          { id: 1, title: 'Media Queries', completed: false },
-          { id: 2, title: 'Flexbox', completed: false },
-          { id: 3, title: 'CSS Grid', completed: false }
-        ]
-      }
-    ];
+        <!-- Signup Form -->
+        <section id="signup" class="page">
+            <div class="auth-form">
+                <h2>Create an Account</h2>
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password">
+                </div>
+                <button class="btn btn-primary" id="signup-submit" style="width: 100%;">Sign Up</button>
+                <div class="auth-switch">
+                    Already have an account? <a href="#" id="switch-to-login">Login</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    // Load from localStorage if exists
-    function loadData() {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) courses = JSON.parse(saved);
-    }
-    function saveData() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
-    }
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="logo">
+                <i>📚</i> VibeLearn
+            </div>
+            <p>Your mini e-learning platform for skill development and knowledge enhancement.</p>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+            <p>&copy; 2023 VibeLearn. All rights reserved.</p>
+        </div>
+    </footer>
 
-    // ------------------- Helpers -------------------
-    function progress(course) {
-      const done = course.lessons.filter(l => l.completed).length;
-      return Math.round((done / course.lessons.length) * 100);
-    }
+    <script>
+        // Course Data
+        const courses = [
+            {
+                id: 1,
+                title: "Web Development Fundamentals",
+                description: "Learn the basics of HTML, CSS, and JavaScript to build your first website.",
+                duration: "10 hours",
+                lessons: 5,
+                level: "Beginner",
+                image: "🌐",
+                lessonsList: [
+                    { id: 1, title: "Introduction to HTML", duration: "2 hours", completed: false },
+                    { id: 2, title: "Styling with CSS", duration: "2 hours", completed: false },
+                    { id: 3, title: "JavaScript Basics", duration: "3 hours", completed: false },
+                    { id: 4, title: "Building a Simple Website", duration: "2 hours", completed: false },
+                    { id: 5, title: "Deploying Your Website", duration: "1 hour", completed: false }
+                ]
+            },
+            {
+                id: 2,
+                title: "JavaScript Mastery",
+                description: "Deep dive into JavaScript concepts including ES6+, DOM manipulation, and APIs.",
+                duration: "15 hours",
+                lessons: 6,
+                level: "Intermediate",
+                image: "⚡",
+                lessonsList: [
+                    { id: 1, title: "ES6+ Features", duration: "3 hours", completed: false },
+                    { id: 2, title: "DOM Manipulation", duration: "3 hours", completed: false },
+                    { id: 3, title: "Asynchronous JavaScript", duration: "3 hours", completed: false },
+                    { id: 4, title: "Working with APIs", duration: "3 hours", completed: false },
+                    { id: 5, title: "JavaScript Patterns", duration: "2 hours", completed: false },
+                    { id: 6, title: "Building a JavaScript App", duration: "1 hour", completed: false }
+                ]
+            },
+            {
+                id: 3,
+                title: "Responsive Web Design",
+                description: "Master CSS Grid, Flexbox, and media queries to create beautiful responsive websites.",
+                duration: "8 hours",
+                lessons: 4,
+                level: "Intermediate",
+                image: "📱",
+                lessonsList: [
+                    { id: 1, title: "CSS Flexbox", duration: "2 hours", completed: false },
+                    { id: 2, title: "CSS Grid", duration: "2 hours", completed: false },
+                    { id: 3, title: "Media Queries", duration: "2 hours", completed: false },
+                    { id: 4, title: "Building a Responsive Layout", duration: "2 hours", completed: false }
+                ]
+            }
+        ];
 
-    // ------------------- Render Home -------------------
-    function renderHome() {
-      const list = document.querySelector('#home .course-list');
-      list.innerHTML = '';
-      courses.forEach(c => {
-        const prog = progress(c);
-        const card = document.createElement('div');
-        card.className = 'course-card';
-        card.innerHTML = `
-          <div class="course-title">${c.title} ${c.completed ? '<small style="color:#27ae60;">(Completed)</small>' : ''}</div>
-          <div><small>${prog}% complete</small></div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${prog}%;"></div></div>
-        `;
-        card.onclick = () => showDetail(c.id);
-        list.appendChild(card);
-      });
-    }
+        // User Data
+        let currentUser = null;
+        let userProgress = JSON.parse(localStorage.getItem('userProgress')) || {};
 
-    // ------------------- Show Detail -------------------
-    let currentCourseId = null;
-    function showDetail(id) {
-      currentCourseId = id;
-      const course = courses.find(c => c.id === id);
-      document.getElementById('detail-title').textContent = course.title;
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const coursesGrids = document.querySelectorAll('.courses-grid');
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const exploreCoursesBtn = document.getElementById('explore-courses-btn');
+        const loginSubmit = document.getElementById('login-submit');
+        const signupSubmit = document.getElementById('signup-submit');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
 
-      const prog = progress(course);
-      document.getElementById('detail-progress').textContent = `${prog}%`;
-      document.getElementById('detail-progress-fill').style.width = `${prog}%`;
-
-      const lessonList = document.querySelector('#detail .lesson-list');
-      lessonList.innerHTML = '';
-      course.lessons.forEach(l => {
-        const item = document.createElement('div');
-        item.className = 'lesson-item';
-        item.innerHTML = `<span>${l.title}</span>`;
-        const btn = document.createElement('button');
-        if (l.completed) {
-          btn.textContent = 'Completed';
-          btn.className = 'completed';
-        } else {
-          btn.textContent = 'Mark Complete';
-          btn.onclick = (e) => {
-            e.stopPropagation();
-            markLessonComplete(id, l.id);
-          };
+        // Initialize the application
+        function init() {
+            renderCourses();
+            setupEventListeners();
+            checkUserStatus();
         }
-        item.appendChild(btn);
-        lessonList.appendChild(item);
-      });
 
-      const completeBtn = document.getElementById('complete-course-btn');
-      if (course.completed) {
-        completeBtn.textContent = 'Course Completed';
-        completeBtn.className = 'complete-course-btn completed';
-        completeBtn.onclick = null;
-      } else {
-        completeBtn.textContent = 'Mark Course as Completed';
-        completeBtn.className = 'complete-course-btn';
-        completeBtn.onclick = markCourseComplete;
-      }
+        // Render courses on the home and courses pages
+        function renderCourses() {
+            coursesGrids.forEach(grid => {
+                grid.innerHTML = '';
+                courses.forEach(course => {
+                    const completedLessons = userProgress[course.id] ? 
+                        userProgress[course.id].filter(lesson => lesson.completed).length : 0;
+                    const progress = completedLessons / course.lessons * 100;
+                    
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card';
+                    courseCard.innerHTML = `
+                        <div class="course-image">${course.image}</div>
+                        <div class="course-content">
+                            <h3>${course.title}</h3>
+                            <p>${course.description}</p>
+                            <div class="course-meta">
+                                <span>⏱️ ${course.duration}</span>
+                                <span>📝 ${course.lessons} lessons</span>
+                                <span>🎓 ${course.level}</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: ${progress}%"></div>
+                            </div>
+                            <p>Progress: ${Math.round(progress)}%</p>
+                            <button class="btn btn-primary view-course" data-id="${course.id}">View Course</button>
+                        </div>
+                    `;
+                    grid.appendChild(courseCard);
+                });
+            });
 
-      document.getElementById('home').style.display = 'none';
-      document.getElementById('detail').style.display = 'block';
-    }
+            // Add event listeners to view course buttons
+            document.querySelectorAll('.view-course').forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = parseInt(this.getAttribute('data-id'));
+                    showCourseDetail(courseId);
+                });
+            });
+        }
 
-    // ------------------- Actions -------------------
-    function markLessonComplete(courseId, lessonId) {
-      const course = courses.find(c => c.id === courseId);
-      const lesson = course.lessons.find(l => l.id === lessonId);
-      lesson.completed = true;
-      saveData();
-      // Auto-complete course if all lessons done
-      if (progress(course) === 100) {
-        course.completed = true;
-      }
-      showDetail(courseId);
-    }
+        // Show course detail page
+        function showCourseDetail(courseId) {
+            const course = courses.find(c => c.id === courseId);
+            if (!course) return;
 
-    function markCourseComplete() {
-      const course = courses.find(c => c.id === currentCourseId);
-      course.completed = true;
-      course.lessons.forEach(l => l.completed = true);
-      saveData();
-      showDetail(currentCourseId);
-    }
+            // Update course detail page
+            document.getElementById('course-title').textContent = course.title;
+            document.getElementById('course-description').textContent = course.description;
+            document.getElementById('course-duration').textContent = course.duration;
+            document.getElementById('course-lessons').textContent = `${course.lessons} lessons`;
+            document.getElementById('course-level').textContent = course.level;
 
-    function showHome() {
-      document.getElementById('detail').style.display = 'none';
-      document.getElementById('home').style.display = 'block';
-      renderHome();
-    }
+            // Calculate progress
+            const userCourseProgress = userProgress[courseId] || 
+                course.lessonsList.map(lesson => ({ id: lesson.id, completed: false }));
+            
+            const completedLessons = userCourseProgress.filter(lesson => lesson.completed).length;
+            const progress = completedLessons / course.lessons * 100;
+            
+            document.getElementById('course-progress-bar').style.width = `${progress}%`;
+            document.getElementById('course-progress-text').textContent = `${Math.round(progress)}%`;
 
-    // ------------------- Init -------------------
-    loadData();
-    renderHome();
-  </script>
+            // Render lessons
+            const lessonsList = document.querySelector('.lessons-list');
+            const lessonsContainer = document.createElement('div');
+            lessonsContainer.id = 'lessons-container';
+            
+            course.lessonsList.forEach(lesson => {
+                const lessonProgress = userCourseProgress.find(l => l.id === lesson.id) || { completed: false };
+                const lessonItem = document.createElement('div');
+                lessonItem.className = `lesson-item ${lessonProgress.completed ? 'lesson-completed' : ''}`;
+                lessonItem.innerHTML = `
+                    <div class="lesson-icon">${lessonProgress.completed ? '✓' : (lesson.id)}</div>
+                    <div class="lesson-content">
+                        <h4>${lesson.title}</h4>
+                        <p>Duration: ${lesson.duration}</p>
+                    </div>
+                    <button class="mark-complete-btn ${lessonProgress.completed ? 'completed' : ''}" 
+                            data-course="${courseId}" data-lesson="${lesson.id}">
+                        ${lessonProgress.completed ? 'Completed' : 'Mark Complete'}
+                    </button>
+                `;
+                lessonsContainer.appendChild(lessonItem);
+            });
+            
+            // Replace existing lessons container
+            const existingContainer = document.getElementById('lessons-container');
+            if (existingContainer) {
+                existingContainer.remove();
+            }
+            
+            lessonsList.appendChild(lessonsContainer);
+
+            // Add event listeners to mark complete buttons
+            document.querySelectorAll('.mark-complete-btn').forEach(button => {
+                if (!button.classList.contains('completed')) {
+                    button.addEventListener('click', function() {
+                        const courseId = parseInt(this.getAttribute('data-course'));
+                        const lessonId = parseInt(this.getAttribute('data-lesson'));
+                        markLessonComplete(courseId, lessonId);
+                    });
+                }
+            });
+
+            // Show course detail page
+            showPage('course-detail');
+        }
+
+        // Mark a lesson as complete
+        function markLessonComplete(courseId, lessonId) {
+            if (!userProgress[courseId]) {
+                userProgress[courseId] = courses.find(c => c.id === courseId).lessonsList
+                    .map(lesson => ({ id: lesson.id, completed: false }));
+            }
+            
+            const lessonIndex = userProgress[courseId].findIndex(lesson => lesson.id === lessonId);
+            if (lessonIndex !== -1) {
+                userProgress[courseId][lessonIndex].completed = true;
+                localStorage.setItem('userProgress', JSON.stringify(userProgress));
+                
+                // Update UI
+                showCourseDetail(courseId);
+                renderCourses();
+            }
+        }
+
+        // Show a specific page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                });
+            });
+
+            // Auth buttons
+            loginBtn.addEventListener('click', () => showPage('login'));
+            signupBtn.addEventListener('click', () => showPage('signup'));
+            exploreCoursesBtn.addEventListener('click', () => showPage('courses'));
+
+            // Auth form switches
+            switchToSignup.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('signup');
+            });
+
+            switchToLogin.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('login');
+            });
+
+            // Login form submission
+            loginSubmit.addEventListener('click', () => {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                if (email && password) {
+                    // Simple login simulation
+                    currentUser = {
+                        name: "Demo User",
+                        email: email
+                    };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    checkUserStatus();
+                    showPage('home');
+                    alert('Login successful!');
+                } else {
+                    alert('Please fill in all fields');
+                }
+            });
+
+            // Signup form submission
+            signupSubmit.addEventListener('click', () => {
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                
+                if (name && email && password) {
+                    // Simple signup simulation
+                    currentUser = {
+                        name: name,
+                        email: email
+                    };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    checkUserStatus();
+                    showPage('home');
+                    alert('Account created successfully!');
+                } else {
+                    alert('Please fill in all fields');
+                }
+            });
+        }
+
+        // Check user status and update UI
+        function checkUserStatus() {
+            const storedUser = localStorage.getItem('currentUser');
+            if (storedUser) {
+                currentUser = JSON.parse(storedUser);
+                loginBtn.textContent = currentUser.name;
+                signupBtn.textContent = 'Logout';
+                
+                // Update logout functionality
+                signupBtn.removeEventListener('click', () => showPage('signup'));
+                signupBtn.addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    currentUser = null;
+                    checkUserStatus();
+                    showPage('home');
+                });
+            } else {
+                loginBtn.textContent = 'Login';
+                signupBtn.textContent = 'Sign Up';
+                
+                // Reset signup button functionality
+                signupBtn.removeEventListener('click', () => {});
+                signupBtn.addEventListener('click', () => showPage('signup'));
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
